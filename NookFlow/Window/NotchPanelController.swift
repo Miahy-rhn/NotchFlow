@@ -147,8 +147,7 @@ final class NotchPanelController {
             let preferences = context.preferences
             context.widgets.panelWillExpand(isEnabled: { preferences.isEnabled($0) })
             // Le widget sélectionné a pu être désactivé depuis la dernière ouverture.
-            let visible = context.preferences.visibleWidgets
-            if !visible.contains(state.selectedWidget) { state.selectedWidget = visible.first ?? .files }
+            state.resolveSelection()
             applyFrame(for: .expanded)
             transitionTask = Task { [weak self] in
                 try? await Task.sleep(for: .milliseconds(20))
@@ -163,10 +162,7 @@ final class NotchPanelController {
                 guard !Task.isCancelled, let self else { return }
                 self.applyFrame(for: .compact)
                 // Une fois fermé, on revient au premier widget si l'utilisateur l'a demandé.
-                if self.context.preferences.openOnFirstWidget,
-                   let first = self.context.preferences.visibleWidgets.first {
-                    self.state.selectedWidget = first
-                }
+                self.state.resetSelectionAfterClose()
             }
         }
     }

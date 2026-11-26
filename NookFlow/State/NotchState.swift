@@ -111,6 +111,18 @@ final class NotchState {
 
     // MARK: - Widgets et clavier
 
+    /// Ramène la sélection sur un widget activé (un widget a pu être désactivé entre-temps).
+    func resolveSelection() {
+        let resolved = preferences.resolved(selectedWidget)
+        if resolved != selectedWidget { selectedWidget = resolved }
+    }
+
+    /// Après la fermeture du panneau : retour au premier widget si l'utilisateur l'a demandé.
+    func resetSelectionAfterClose() {
+        guard preferences.openOnFirstWidget, let first = preferences.visibleWidgets.first else { return }
+        selectedWidget = first
+    }
+
     func select(_ widget: WidgetID) {
         selectedWidget = widget
         if keyboardWidgets.contains(widget) {

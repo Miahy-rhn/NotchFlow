@@ -62,6 +62,7 @@ final class AppContext {
         }
         preferences.onChange = { [weak notchState, weak registry, weak preferences] in
             notchState?.updateBadge()
+            notchState?.resolveSelection()
             guard let registry, let preferences else { return }
             registry.syncEnabled(isEnabled: { preferences.isEnabled($0) })
         }

@@ -132,6 +132,13 @@ final class AppPreferences {
 
     func isEnabled(_ widget: WidgetID) -> Bool { !disabledWidgets.contains(widget) }
 
+    /// Le widget à afficher réellement : celui demandé s'il est activé, sinon le premier activé.
+    /// Seul endroit qui décide de ce repli.
+    func resolved(_ widget: WidgetID) -> WidgetID {
+        let visible = visibleWidgets
+        return visible.contains(widget) ? widget : (visible.first ?? .files)
+    }
+
     /// Active ou désactive un widget. Le dernier widget actif ne peut pas être désactivé.
     func setEnabled(_ enabled: Bool, for widget: WidgetID) {
         if enabled {

@@ -9,7 +9,7 @@ struct ExpandedView: View {
         let state = context.state
         let visible = context.preferences.visibleWidgets
         // Si le widget sélectionné a été désactivé, on se rabat sur le premier widget actif.
-        let current = visible.contains(state.selectedWidget) ? state.selectedWidget : (visible.first ?? .files)
+        let current = context.preferences.resolved(state.selectedWidget)
 
         VStack(spacing: 8) {
             tabBar(visible: visible, current: current)
