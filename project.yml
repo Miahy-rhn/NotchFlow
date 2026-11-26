@@ -1,0 +1,58 @@
+name: NookFlow
+
+options:
+  bundleIdPrefix: com.nookflow
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # Signature locale (« Sign to Run Locally »), sans compte développeur.
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+    # Pas d'App Sandbox : aucun fichier .entitlements n'est référencé.
+    ENABLE_HARDENED_RUNTIME: NO
+
+targets:
+  NookFlow:
+    type: application
+    platform: macOS
+    sources:
+      - path: NookFlow
+    info:
+      path: NookFlow/Info.plist
+      properties:
+        CFBundleDisplayName: NookFlow
+        # Application « agent » : pas d'icône dans le Dock, uniquement la barre de menus.
+        LSUIElement: true
+        LSMinimumSystemVersion: "14.0"
+        # Texte affiché par macOS quand NookFlow demande l'accès au calendrier.
+        NSCalendarsFullAccessUsageDescription: "NookFlow affiche tes prochains événements dans le panneau. Les données restent sur ton Mac et ne sont jamais modifiées ni envoyées."
+        # Texte affiché par macOS quand NookFlow demande à contrôler Spotify (Automatisation).
+        NSAppleEventsUsageDescription: "NookFlow lit le morceau en cours et contrôle la lecture de Spotify (lecture, pause, suivant, précédent). Rien n'est envoyé hors de ton Mac, sauf le téléchargement de la pochette depuis Spotify."
+        NSCalendarsUsageDescription: "NookFlow affiche tes prochains événements dans le panneau. Les données restent sur ton Mac et ne sont jamais modifiées ni envoyées."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nookflow.NookFlow
+        PRODUCT_NAME: NookFlow
+        ENABLE_PREVIEWS: YES
+    # ⌘U dans Xcode lance les tests de la cible NookFlowTests.
+    scheme:
+      testTargets:
+        - NookFlowTests
+
+  NookFlowTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: NookFlowTests
+    dependencies:
+      - target: NookFlow
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nookflow.NookFlowTests
+        GENERATE_INFOPLIST_FILE: YES
