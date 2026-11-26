@@ -1,5 +1,7 @@
 # NookFlow
 
+![CI](https://github.com/Miahy-rhn/NookFlow/actions/workflows/ci.yml/badge.svg)
+
 Application macOS native (Swift / SwiftUI / AppKit), inspirée de NotchNook : un panneau flottant
 noir collé à l'encoche du MacBook (ou une pilule en haut de l'écran sans encoche) qui s'ouvre au
 survol, avec des widgets : étagère de fichiers, notes, minuteur, calendrier, Spotify.
@@ -80,6 +82,15 @@ NookFlow/
 
 ⌘U dans Xcode lance les 82 tests de la cible `NookFlowTests` (logique du minuteur, des notes,
 des fichiers, du calendrier, de la musique et des préférences).
+
+## Vérifier le projet
+
+```bash
+./scripts/check.sh          # régénère le projet et vérifie qu'aucun fichier Swift n'est oublié
+./scripts/check.sh --test   # idem + lance les tests
+```
+
+La même commande tourne automatiquement sur GitHub (onglet **Actions**) à chaque push.
 
 ## Installer pour l'utiliser au quotidien
 
