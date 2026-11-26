@@ -26,13 +26,11 @@ struct NotchRootView: View {
                 .fill(themeGradient(preferences.theme, height: size.height, notchHeight: state.geometry.notchHeight))
                 .opacity(isExpanded ? 1 : 0)
 
-            // Fond de l'onglet actif : pochette floutée pour la Musique (quand Spotify en fournit une),
-            // sinon halos de couleur propres à chaque widget.
+            // Fond de l'onglet actif : celui du widget s'il en propose un (pochette de la Musique),
+            // sinon des halos de couleur propres à chaque widget.
             if isExpanded {
-                if state.selectedWidget == .music, context.music.playerState != .stopped,
-                   let artwork = context.music.artwork {
-                    MusicBackdrop(image: artwork, notchHeight: state.geometry.notchHeight)
-                        .transition(.opacity)
+                if let backdrop = context.widgets.backdrop(for: state.selectedWidget, notchHeight: state.geometry.notchHeight) {
+                    backdrop.transition(.opacity)
                 } else {
                     WidgetBackdrop(widget: state.selectedWidget, notchHeight: state.geometry.notchHeight)
                         .id(state.selectedWidget)

@@ -65,6 +65,9 @@ final class NotchState {
 
     var selectedWidget: WidgetID = .files
 
+    /// Widgets qui ont besoin du clavier (renseigné depuis le registre par AppContext).
+    @ObservationIgnored var keyboardWidgets: Set<WidgetID> = []
+
     /// Vrai quand le panneau compact doit afficher le minuteur (en cours, en pause ou terminé)
     /// et que le widget Minuteur est activé dans les préférences.
     var compactBadgeVisible = false {
@@ -110,7 +113,7 @@ final class NotchState {
 
     func select(_ widget: WidgetID) {
         selectedWidget = widget
-        if widget == .notes {
+        if keyboardWidgets.contains(widget) {
             requestKeyboard()
         } else {
             setKeyboardAccess?(false)
@@ -118,9 +121,9 @@ final class NotchState {
     }
 
     /// Le clavier n'est jamais demandé automatiquement (sinon le simple passage de la souris
-    /// volerait le focus) : uniquement après un clic explicite dans le widget Notes.
+    /// volerait le focus) : uniquement après un clic explicite dans un widget qui le demande (Notes).
     func requestKeyboard() {
-        guard selectedWidget == .notes else { return }
+        guard keyboardWidgets.contains(selectedWidget) else { return }
         keyboardGrantCount &+= 1
         setKeyboardAccess?(true)
     }

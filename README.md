@@ -62,6 +62,7 @@ NookFlow/
 ├── Views/    NotchRootView.swift, ExpandedView.swift, SettingsView.swift, ...
 ├── Services/ NotificationService.swift, LaunchAtLogin.swift
 └── Widgets/
+    ├── NookWidget.swift (protocole des widgets + registre), BuiltInWidgets.swift (les cinq widgets)
     ├── Files/  FileShelfStore.swift, FilesWidgetView.swift
     ├── Notes/  NotesStore.swift, NotesWidgetView.swift
     ├── Calendar/ CalendarService.swift, CalendarModel.swift, CalendarWidgetView.swift
@@ -70,6 +71,12 @@ NookFlow/
 ```
 
 `NookFlow/Info.plist` est généré par XcodeGen au moment de `xcodegen generate`.
+
+## Ajouter un widget
+
+1. Ajouter un cas à `WidgetID` (`State/NotchState.swift`) : titre, icône, et couleurs d'ambiance dans `Views/WidgetBackdrop.swift`.
+2. Écrire une classe qui adopte `NookWidget` (`Widgets/BuiltInWidgets.swift`) : sa vue, et si besoin le clavier, le rafraîchissement à l'ouverture.
+3. L'ajouter à la liste du registre dans `State/AppContext.swift`.
 
 ## Ce qu'on doit observer
 

@@ -14,21 +14,8 @@ struct ExpandedView: View {
         VStack(spacing: 8) {
             tabBar(visible: visible, current: current)
 
-            Group {
-                switch current {
-                case .files:
-                    FilesWidgetView(store: context.shelf, isDropTargeted: state.isDropTargeted)
-                case .notes:
-                    NotesWidgetView(store: context.notes, state: state)
-                case .timer:
-                    TimerWidgetView(timer: context.timer)
-                case .calendar:
-                    CalendarWidgetView(model: context.calendar)
-                case .music:
-                    MusicWidgetView(model: context.music)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            context.widgets.view(for: current, state: state)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .padding(.top, state.geometry.notchHeight + 6) // sous la zone de l'encoche
         .padding(.horizontal, 18)

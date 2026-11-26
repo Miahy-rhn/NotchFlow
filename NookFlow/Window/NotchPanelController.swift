@@ -143,10 +143,9 @@ final class NotchPanelController {
         transitionTask?.cancel()
         switch mode {
         case .expanded:
-            // Les fichiers ont pu être déplacés ou supprimés depuis la dernière ouverture.
-            context.shelf.refresh()
-            // Un widget désactivé n'accède plus à ses données.
-            if context.preferences.isEnabled(.calendar) { context.calendar.refresh() }
+            // Chaque widget activé rafraîchit ses données (fichiers déplacés, calendrier…).
+            let preferences = context.preferences
+            context.widgets.panelWillExpand(isEnabled: { preferences.isEnabled($0) })
             // Le widget sélectionné a pu être désactivé depuis la dernière ouverture.
             let visible = context.preferences.visibleWidgets
             if !visible.contains(state.selectedWidget) { state.selectedWidget = visible.first ?? .files }
